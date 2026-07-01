@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareConnect - Dashboard Dokter</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#e8f5e9,#e3f2fd);
+}
+.dashboard{
+    max-width:1200px;
+    margin:40px auto;
+    padding:25px;
+}
+
+.navbar{
+    background:#fff;
+    border-radius:20px;
+    padding:30px 35px;
+    margin-bottom:30px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;          /* penting */
+
+    gap:20px;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+}
+.navbar h1{
+    color:#1b5e20;
+    font-size:42px;
+    margin:0;
+    flex:1;
+    min-width:250px;
+}
+
+.nav-links{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+}
+
+.nav-btn{
+    padding:12px 24px;
+    border-radius:10px;
+    text-decoration:none;
+    border:2px solid #2e7d32;
+    color:#2e7d32;
+    background:#fff;
+    transition:.3s;
+    font-weight:600;
+}
+
+.nav-btn:hover{
+    background:#2e7d32;
+    color:white;
+}
+
+.logout{
+    border-color:#ef5350;
+    color:#ef5350;
+}
+
+.logout:hover{
+    background:#ef5350;
+}
+.welcome-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:30px;
+    box-shadow:0 15px 35px rgba(46,125,50,.08);
+}
+
+.welcome-box h2{
+    font-size:35px;
+    color:#1b5e20;
+}
+
+.welcome-box p{
+    color:#666;
+    margin-top:10px;
+}
+
+.welcome-box img{
+    width:220px;
+}
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+.card h3{
+    color:#666;
+}
+.card h3{
+    margin:0;
+    color:#666;
+}
+
+.card .value{
+    font-size:45px;
+    color:#2e7d32;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.section{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+.section h2{
+    color:#2e7d32;
+    margin-bottom:20px;
+}
+
+.status-available{
+    color:green;
+    font-weight:bold;
+}
+
+.profile-grid{
+    display:grid;
+    gap:10px;
+}
+
+input,
+textarea,
+select{
+
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    border:1px solid #2e7d32;
+    outline:none;
+}
+
+button{
+
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:13px 22px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{
+
+    background:#1b5e20;
+}
+
+.appointment-item{
+
+    background:#f8faf8;
+    padding:18px;
+    border-radius:10px;
+    margin-bottom:12px;
+}
+.actions{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.actions .btn,
+.actions button{
+    margin:0;
+}
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+
+    <div class="navbar">
+        <div class="welcome-box">
+
+    <div>
+
+        <h2 id="doctor-name">
+            Selamat Datang Dokter
+        </h2>
+
+        <p>
+            Kelola jadwal konsultasi dan pantau pasien Anda dengan mudah.
+        </p>
+
+    </div>
+
+    <img src="dash-doc.png">
+
+</div>
+
+
+        <div class="nav-links">
+            <a href="doctors.html?from=doctor" class="nav-btn">
+                Daftar Dokter
+            </a>
+             <button id="notif-btn" onclick="toggleNotifPanel()">
+    🔔 Notifikasi
+    <span id="notif-badge" style="
+        display:none;
+        background:red;
+        color:white;
+        border-radius:50%;
+        padding:2px 6px;
+        font-size:12px;">
+    </span>
+</button>
+            <button class="nav-btn logout" onclick="logout()">
+                Keluar
+        </button>
+        <div id="notif-panel" style="
+display:none;
+position:absolute;
+right:40px;
+top:90px;
+width:350px;
+background:white;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+z-index:999;">
+    
+    <div style="
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    border-bottom:1px solid #eee;">
+        <b>Notifikasi</b>
+
+        <a href="#"
+           onclick="markAllRead()">
+            Tandai semua dibaca
+        </a>
+    </div>
+
+    <div id="notif-list">
+        Memuat...
+    </div>
+           
+</div>
+        </div>
+    </div>
+
+    <h2 id="doctor-name">
+        Selamat Datang Dokter
+    </h2>
+
+    <div class="cards">
+
+    <div class="card">
+        <h3>Total Pasien</h3>
+        <div class="value" id="totalPatients">0</div>
+    </div>
+
+    <div class="card">
+        <h3>Janji Hari Ini</h3>
+        <div class="value" id="todayAppointments">0</div>
+    </div>
+
+    <div class="card">
+        <h3>Status Praktik</h3>
+
+        <select id="doctorStatus">
+            <option value="1">🟢 Available</option>
+            <option value="0">🔴 Tidak Available</option>
+        </select>
+
+        <br><br>
+
+        <button onclick="saveStatus()">
+            Simpan Status
+        </button>
+    </div>
+
+</div>
+
+
+    <div class="section">
+        <h2>Profil Dokter</h2>
+
+        <div class="profile-grid">
+
+            <input
+                type="text"
+                id="specialization"
+                placeholder="Spesialisasi"
+            >
+
+            <input
+                type="text"
+                id="phone"
+                placeholder="Nomor Telepon"
+            >
+
+            <textarea
+                id="bio"
+                rows="4"
+                placeholder="Bio Dokter"
+            ></textarea>
+
+            <button onclick="saveProfile()">
+                Simpan Profil
+            </button>
+
+        </div>
+    </div>
+    <div class="section">
+
+    <h2>Janji Konsultasi</h2>
+
+    <div id="appointment-list">
+        Memuat data...
+    </div>
+
+</div>
+    </div>
+
+</div>
+    
+<!-- Jadwal Praktik -->
+<div class="section">
+
+    <h2>Jadwal Praktik</h2>
+
+    <input
+        type="text"
+        id="schedule"
+        placeholder="Contoh: Senin - Jumat | 08:00 - 16:00"
+    >
+
+    <button onclick="saveSchedule()">
+        Simpan Jadwal
+    </button>
+
+    <p id="schedule-msg"></p>
+
+</div>
+
+<!-- Riwayat Pasien -->
+<div class="section">
+
+    <h2>Input Rekam Medis Pasien</h2>
+
+    <input
+        type="text"
+        id="patientName"
+        placeholder="Nama Pasien"
+    >
+
+    <input
+        type="text"
+        id="diagnosis"
+        placeholder="Diagnosis"
+    >
+
+    <textarea
+        id="prescription"
+        rows="4"
+        placeholder="Resep Obat"
+    ></textarea>
+
+    <button onclick="addMedicalRecord()">
+        Simpan Rekam Medis
+    </button>
+
+</div>
+
+<div class="section">
+
+    <h2>Riwayat Pasien</h2>
+
+    <div id="patient-history">
+        Belum ada data pasien.
+    </div>
+
+</div>
+
+<script>
+
+const token = localStorage.getItem('token');
+
+async function saveProfile(){
+
+    const specialization =
+        document.getElementById('specialization').value;
+
+    const phone =
+        document.getElementById('phone').value;
+
+    const bio =
+        document.getElementById('bio').value;
+    
+    const is_available =
+        document.getElementById('doctorStatus').value;
+
+    try{
+
+        const response = await fetch(
+            'http://localhost:3000/api/doctors/profile',
+            {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    Authorization:'Bearer ' + token
+                },
+                body:JSON.stringify({
+                    specialization,
+                    phone,
+                    bio
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.message);
+
+    }catch(error){
+
+        console.error(error);
+
+        alert('Gagal menyimpan profil');
+
+    }
+
+}
+
+function logout(){
+
+    localStorage.removeItem('token');
+
+    // Jangan hapus patientRecords agar tetap tersimpan
+    window.location.href = 'index.html';
+
+}
+function updateDashboard(){
+
+    // Total pasien unik
+    const uniquePatients = [
+        ...new Set(patientRecords.map(r => r.patientName))
+    ];
+
+    document.getElementById('totalPatients').textContent =
+        uniquePatients.length;
+
+    // Karena belum memakai database janji,
+    // jumlah janji = jumlah rekam medis sementara
+    document.getElementById('todayAppointments').textContent =
+        patientRecords.length;
+}
+
+/* =========================
+   JADWAL PRAKTIK
+========================= */
+
+async function saveSchedule(){
+
+    const schedule =
+        document.getElementById('schedule').value;
+
+    try{
+
+        const response = await fetch(
+            'http://localhost:3000/api/doctors/schedule',
+            {
+                method:'PUT',
+                headers:{
+                    'Content-Type':'application/json',
+                    Authorization:'Bearer ' + token
+                },
+                body:JSON.stringify({
+                    schedule
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        document.getElementById('schedule-msg')
+            .innerHTML = data.message;
+
+    }catch(err){
+
+        alert('Gagal menyimpan jadwal');
+
+    }
+
+}
+
+async function saveStatus(){
+
+    const is_available =
+        document.getElementById('doctorStatus').value;
+
+    const response = await fetch(
+        'http://localhost:3000/api/doctors/status',
+        {
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json',
+                Authorization:'Bearer ' + token
+            },
+            body:JSON.stringify({
+                is_available
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    alert(data.message);
+}
+
+let patientRecords = [];
+
+function addMedicalRecord() {
+
+    const patientName =
+        document.getElementById('patientName').value;
+
+    const diagnosis =
+        document.getElementById('diagnosis').value;
+
+    const prescription =
+        document.getElementById('prescription').value;
+
+    if (!patientName || !diagnosis) {
+        alert('Nama pasien dan diagnosis wajib diisi');
+        return;
+    }
+
+    patientRecords.push({
+    patientName,
+    diagnosis,
+    prescription,
+    date: new Date().toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    })
+});
+    
+    localStorage.setItem(
+    'patientRecords',
+    JSON.stringify(patientRecords)
+);
+
+    renderPatientHistory();
+        updateDashboard();
+        renderAppointments();
+    document.getElementById('patientName').value = '';
+    document.getElementById('diagnosis').value = '';
+    document.getElementById('prescription').value = '';
+
+    alert('Rekam medis berhasil ditambahkan');
+}
+function renderPatientHistory() {
+
+    const container =
+        document.getElementById('patient-history');
+
+    if (patientRecords.length === 0) {
+
+        container.innerHTML =
+            'Belum ada data pasien.';
+
+        return;
+    }
+
+    container.innerHTML = '';
+
+    patientRecords.forEach(record => {
+
+        container.innerHTML += `
+            <div class="appointment-item">
+
+                <strong>${record.patientName}</strong>
+
+                <br>
+
+                Diagnosis:
+                ${record.diagnosis}
+
+                <br>
+
+                Resep:
+                ${record.prescription || '-'}
+
+            </div>
+        `;
+
+    });
+
+}
+async function renderAppointments(){
+
+    const container = document.getElementById("appointment-list");
+
+    try{
+
+        const res = await fetch("/api/appointments/doctor",{
+
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+
+        });
+
+        const data = await res.json();
+        console.log(data.appointments);
+
+        if(!res.ok){
+
+            container.innerHTML = data.message;
+            return;
+
+        }
+
+        if(data.appointments.length===0){
+
+            container.innerHTML = "Belum ada janji konsultasi.";
+            return;
+
+        }
+
+        container.innerHTML = "";
+
+        data.appointments.forEach(item=>{
+
+            container.innerHTML += `
+
+            <div class="appointment-item">
+
+                <strong>${item.patient_name}</strong><br>
+
+                📅 ${item.date}<br>
+
+                🕒 ${item.time}<br>
+
+                Status :
+                <b>${item.status}</b>
+
+                <br><br>
+
+                ${
+                    item.status==="pending"
+                    ?`
+                    <button onclick="updateStatus(${item.id},'confirmed')">
+                        ✔ Terima
+                    </button>
+
+                    <button onclick="updateStatus(${item.id},'cancelled')">
+                        ✖ Tolak
+                    </button>
+                    `
+                    :""
+                }
+
+                ${
+                    item.status==="confirmed"
+                    ?`
+                    <button onclick="updateStatus(${item.id},'done')">
+                        ✔ Selesai
+                    </button>
+                    `
+                    :""
+                }
+
+            </div>
+
+            <hr>
+
+            `;
+
+        });
+
+    }catch(err){
+
+        console.error(err);
+
+        container.innerHTML="Gagal memuat data.";
+
+    }
+
+}
+async function updateStatus(id, status){
+
+    try{
+
+        const res = await fetch(`/api/appointments/status/${id}`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:`Bearer ${token}`
+            },
+            body:JSON.stringify({
+                status:status
+            })
+        });
+
+        const data = await res.json();
+
+        console.log("PUT:", data);
+
+        await renderAppointments();
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+
+}
+function selesaiJanji(patientName,date,time){
+
+    let appointments =
+        JSON.parse(localStorage.getItem("appointmentBookings")) || [];
+
+    appointments = appointments.filter(item =>
+
+        !(item.patientName === patientName &&
+          item.date === date &&
+          item.time === time)
+
+    );
+
+    localStorage.setItem(
+        "appointmentBookings",
+        JSON.stringify(appointments)
+    );
+
+    renderAppointments();
+
+    alert("Janji konsultasi telah selesai.");
+
+}
+window.onload = () => {
+
+    const data = localStorage.getItem("patientRecords");
+
+    if(data){
+        patientRecords = JSON.parse(data);
+    }
+
+    renderPatientHistory();
+    updateDashboard();
+    renderAppointments();
+};
+loadNotifications();
+
+setInterval(loadNotifications,60000);
+
+async function loadNotifications(){
+
+    try{
+
+        const res = await fetch("/api/notifications/doctor/notifications",{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        });
+
+        console.log("Status:",res.status);
+
+        const data = await res.json();
+
+        console.log(data);
+
+        if(!res.ok){
+            console.log(data.message);
+            return;
+        }
+
+        const badge=document.getElementById("notif-badge");
+
+        if(data.unreadCount>0){
+            badge.style.display="inline";
+            badge.textContent=data.unreadCount;
+        }else{
+            badge.style.display="none";
+        }
+
+        const list=document.getElementById("notif-list");
+
+        if(data.notifications.length===0){
+            list.innerHTML="<p style='padding:15px;text-align:center'>Tidak ada notifikasi.</p>";
+            return;
+        }
+
+        list.innerHTML=data.notifications.map(n=>`
+            <div onclick="readNotif(${n.id},this)"
+                 style="
+                    padding:12px;
+                    cursor:pointer;
+                    background:${n.is_read?'white':'#f1f8e9'};
+                    border-bottom:1px solid #eee;">
+
+                <b>${n.title}</b><br>
+                ${n.message}<br>
+                <small>${new Date(n.created_at).toLocaleString("id-ID")}</small>
+
+            </div>
+        `).join("");
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+
+}
+async function readNotif(id,el){
+
+    el.style.background="white";
+
+    await fetch(`/api/notifications/doctor/notifications/read/${id}`,{
+
+        method:"PUT",
+
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+
+    });
+
+    loadNotifications();
+
+}
+async function markAllRead(){
+
+    await fetch("/api/notifications/doctor/notifications/read-all",{
+
+        method:"PUT",
+
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+
+    });
+
+    loadNotifications();
+
+}
+document.addEventListener("click",(e)=>{
+
+    const btn=document.getElementById("notif-btn");
+    const panel=document.getElementById("notif-panel");
+
+    if(!btn.contains(e.target) && !panel.contains(e.target)){
+
+        panel.style.display="none";
+
+    }
+
+});
+loadNotifications();
+
+setInterval(loadNotifications,60000);
+
+function toggleNotifPanel(){
+
+    const panel =
+        document.getElementById("notif-panel");
+
+    panel.style.display =
+        panel.style.display==="block"
+        ? "none"
+        : "block";
+
+}
+</script>
+
+</body>
+</html>

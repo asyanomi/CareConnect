@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthSync - Smart Health Platform</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+  <body>
+
+<div class="main-wrapper">
+
+    <div class="auth-container">
+
+        <div class="auth-header">
+            <h1>CareConnect</h1>
+            <p>Platform Kesehatan Digital Terintegrasi</p>
+        </div>
+
+        <div class="tab-toggle">
+            <button class="tab-btn active" onclick="showTab('login')">
+                Login
+            </button>
+
+            <button class="tab-btn" onclick="showTab('register')">
+                Register
+            </button>
+        </div>
+
+        <!-- Login -->
+        <div id="login-form">
+            <h2>Masuk ke Akun</h2>
+
+            <input type="email"
+                   id="login-email"
+                   placeholder="Email">
+
+            <input type="password"
+                   id="login-password"
+                   placeholder="Password">
+
+            <button onclick="handleLogin()">
+                Login
+            </button>
+
+            <p id="login-msg" class="msg"></p>
+        </div>
+
+        <!-- Register -->
+        <div id="register-form" style="display:none">
+
+            <h2>Buat Akun Baru</h2>
+
+            <input type="text"
+                   id="reg-name"
+                   placeholder="Nama Lengkap">
+
+            <input type="email"
+                   id="reg-email"
+                   placeholder="Email">
+
+            <input type="password"
+                   id="reg-password"
+                   placeholder="Password">
+
+            <select id="reg-role">
+                <option value="patient">Pasien</option>
+                <option value="doctor">Dokter</option>
+            </select>
+
+            <button onclick="handleRegister()">
+                Daftar
+            </button>
+
+            <p id="reg-msg" class="msg"></p>
+
+        </div>
+
+    </div>
+
+    <div class="hero-image">
+
+        <img src="doctor.jpg" alt="Doctor">
+
+    </div>
+
+</div>
+
+<div class="stats">
+    <div class="stat">
+        <h3>40+</h3>
+        <p>Dokter</p>
+    </div>
+
+    <div class="stat">
+        <h3>250+</h3>
+        <p>Pasien</p>
+    </div>
+
+    <div class="stat">
+        <h3>500+</h3>
+        <p>Rekam Medis</p>
+    </div>
+</div>
+
+<script src="js/auth.js">
+      localStorage.setItem("currentUser", JSON.stringify({
+
+    name: data.user.name,
+
+    role: data.user.role
+
+}));
+</script>
+<footer>
+    © 2026 HealthSync • Smart Digital Healthcare Platform
+</footer>
+</body>
+</html>

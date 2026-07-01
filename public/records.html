@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthSync - Rekam Medis</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .records-wrapper { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    .card { background: white; border-radius: 12px; border: 1px solid #e0e0e0; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .card h2 { color: #2e7d32; margin-bottom: 1rem; font-size: 1.1rem; }
+    .record-item {
+      border: 1px solid #e8f5e9; border-radius: 10px;
+      padding: 1rem; margin-bottom: 10px; background: #fafff9;
+    }
+    .record-item .meta {
+      font-size: 0.8rem; color: #888; margin-bottom: 6px;
+    }
+    .record-item strong { color: #2e7d32; }
+    .record-item p { font-size: 0.88rem; margin: 4px 0; color: #444; }
+    .download-btn {
+      display: inline-block; margin-top: 8px;
+      padding: 6px 14px; background: #e8f5e9;
+      color: #2e7d32; border-radius: 6px; font-size: 0.82rem;
+      text-decoration: none; font-weight: 600; cursor: pointer;
+      border: 1px solid #c5e1a5; width: auto;
+    }
+
+    /* Form upload khusus dokter */
+    #doctor-form { display: none; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 4px; }
+    .form-group textarea {
+      width: 100%; padding: 10px; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 0.9rem; resize: vertical;
+    }
+  </style>
+</head>
+<body>
+<div class="records-wrapper">
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:1.5rem">
+    <button onclick="history.back()" style="width:auto; padding:8px 16px; background:none; border:1px solid #2e7d32; color:#2e7d32; border-radius:8px">← Kembali</button>
+    <h1 style="color:#2e7d32; font-size:1.3rem">Rekam Medis</h1>
+  </div>
+
+  <!-- Form tambah rekam medis — hanya muncul jika role dokter -->
+  <div class="card" id="doctor-form">
+    <h2>Tambah Rekam Medis Pasien</h2>
+    <div class="form-group">
+      <label>ID Pasien</label>
+      <input type="number" id="rec-patient-id" placeholder="Masukkan ID pasien"/>
+    </div>
+    <div class="form-group">
+      <label>Diagnosis</label>
+      <textarea id="rec-diagnosis" rows="3" placeholder="Tuliskan diagnosis..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Resep / Tindakan</label>
+      <textarea id="rec-prescription" rows="2" placeholder="Tuliskan resep atau tindakan..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Upload File (PDF/JPG/PNG, maks 5MB)</label>
+      <input type="file" id="rec-file" accept=".pdf,.jpg,.jpeg,.png"/>
+    </div>
+    <button onclick="submitRecord()">Simpan Rekam Medis</button>
+    <p id="rec-msg" class="msg" style="margin-top:10px"></p>
+  </div>
+
+  <!-- Daftar rekam medis -->
+  <div class="card">
+    <h2>Riwayat Rekam Medis</h2>
+    <div id="records-list">Memuat data...</div>
+  </div>
+</div>
+<script src="js/records.js"></script>
+</body>
+</html>

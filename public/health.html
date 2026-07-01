@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthSync - Health Tracker</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .tracker-wrapper { max-width: 750px; margin: 2rem auto; padding: 0 1rem; }
+    .card {
+      background: white; border-radius: 12px;
+      border: 1px solid #e0e0e0; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .card h2 { color: #2e7d32; margin-bottom: 1rem; font-size: 1.1rem; }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .form-grid input { margin-bottom: 0; }
+    .bmi-result {
+      margin-top: 1rem; padding: 1rem; border-radius: 8px;
+      background: #f1f8e9; border: 1px solid #c5e1a5;
+      display: none;
+    }
+    .bmi-result.show { display: block; }
+    .bmi-value { font-size: 2rem; font-weight: 700; color: #2e7d32; }
+    .bmi-cat   { font-size: 0.9rem; color: #555; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { background: #f1f8e9; padding: 10px; text-align: left; color: #2e7d32; }
+    td { padding: 10px; border-bottom: 1px solid #f0f0f0; }
+    tr:hover td { background: #fafafa; }
+    .badge {
+      padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+    }
+    .badge.normal      { background: #e8f5e9; color: #2e7d32; }
+    .badge.underweight { background: #e3f2fd; color: #1565c0; }
+    .badge.overweight  { background: #fff8e1; color: #f57f17; }
+    .badge.obesitas    { background: #fce4ec; color: #c62828; }
+    .del-btn {
+      background: none; border: none; color: #e53935;
+      cursor: pointer; width: auto; padding: 4px 8px; font-size: 0.85rem;
+    }
+    #form-msg { margin-top: 10px; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="tracker-wrapper">
+    <h1 style="color:#2e7d32; margin-bottom:1.5rem">📊 Health Tracker</h1>
+
+    <!-- Form Input -->
+    <div class="card">
+      <h2>Catat Data Kesehatan</h2>
+      <div class="form-grid">
+        <input type="number" id="weight" placeholder="Berat Badan (kg)" step="0.1"/>
+        <input type="number" id="height" placeholder="Tinggi Badan (cm)" step="0.1"/>
+        <input type="text"   id="blood_pressure" placeholder="Tekanan Darah (mis: 120/80)"/>
+        <input type="number" id="calories" placeholder="Kalori Harian (kkal)"/>
+        <input type="date"   id="log_date"/>
+        <input type="text"   id="notes" placeholder="Catatan (opsional)"/>
+      </div>
+      <button style="margin-top:1rem" onclick="submitLog()">Simpan Data</button>
+      <p id="form-msg" class="msg"></p>
+
+      <!-- Hasil BMI langsung tampil setelah simpan -->
+      <div class="bmi-result" id="bmi-result">
+        <div class="bmi-value" id="bmi-value">–</div>
+        <div class="bmi-cat"  id="bmi-cat">–</div>
+      </div>
+    </div>
+
+    <!-- Tabel Riwayat -->
+    <div class="card">
+      <h2>Riwayat Kesehatan</h2>
+      <div id="log-table">Memuat data...</div>
+    </div>
+  </div>
+
+  <script src="js/health.js">
+    // Contoh pembersihan data sebelum masuk ke database
+  const weight = parseFloat(String(req.body.weight).replace(',', '.'));
+  const height = parseFloat(String(req.body.height).replace(',', '.'));
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#E6FFEC;
+    margin:0;
+}
+
+.auth-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px #61a364;
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-header { text-align: center; margin-bottom: 1.5rem; }
+.auth-header h1 { font-size: 2rem; color: #2e7d32; }
+.auth-header p  { color: #666; font-size: 0.9rem; margin-top: 4px; }
+
+.tab-toggle { display: flex; margin-bottom: 1.5rem; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; }
+.tab-btn { flex: 1; padding: 10px; border: none; background: #f5f5f5; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
+.tab-btn.active { background: #2e7d32; color: white; font-weight: 600; }
+
+h2 { font-size: 1.2rem; margin-bottom: 1rem; color: #333; }
+
+input, select {
+  width: 100%; padding: 12px; margin-bottom: 12px;
+  border: 1px solid #ddd; border-radius: 8px;
+  font-size: 0.95rem; outline: none; transition: border 0.2s;
+}
+input:focus, select:focus { border-color: #2e7d32; }
+
+button {
+  width: 100%; padding: 12px; background: #2e7d32;
+  color: white; border: none; border-radius: 8px;
+  font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+button:hover { background: #67956a; }
+
+.msg { margin-top: 12px; font-size: 0.9rem; text-align: center; }
+.msg.success { color: #2e7d32; }
+.msg.error   { color: #c62828; }
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:25px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat h3{
+    color:#2e7d32;
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.stat p{
+    color:#666;
+    font-size:14px;
+}
+
+footer{
+    text-align:center;
+    margin-top:25px;
+    color:#888;
+    font-size:13px;
+}
+.main-wrapper{
+    width:1100px;
+    max-width:95%;
+    margin:60px auto;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 20px 40px #61a364;
+
+    display:grid;
+    grid-template-columns:420px 1fr;
+    overflow:hidden;
+}
+
+.auth-container{
+    flex:1;
+    max-width:420px;
+    background:#fff;
+    padding:45px;
+}
+
+.hero-image{
+    background:#e8faea;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:35px;
+}
+
+.hero-image img{
+    width:100%;
+    max-width:550px;
+    object-fit:contain;
+}
+
+.login-image img{
+    width:100%;
+    max-width:480px;
+}

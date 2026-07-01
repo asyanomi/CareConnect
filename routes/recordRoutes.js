@@ -1,6 +1,6 @@
 const express  = require('express');
 const router   = express.Router();
-const upload   = require('../uploads/mutler');
+const upload   = require('../config/mutler');
 const {
   createRecord,
   getMyRecords,

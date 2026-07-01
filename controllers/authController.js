@@ -55,11 +55,15 @@ res.status(201).json({
 });
 
   } catch (error) {
-    console.error('Error register:', error);
-    res.status(500).json({ message: 'Terjadi kesalahan pada server.' });
-  }
-};
+  console.error(error);
 
+  res.status(500).json({
+    success: false,
+    message: error.message,
+    code: error.code,
+    sqlMessage: error.sqlMessage
+  });
+}
 // === LOGIN ===
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -102,10 +106,15 @@ const login = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error login:', error);
-    res.status(500).json({ message: 'Terjadi kesalahan pada server.' });
-  }
-};
+  console.error(error);
+
+  res.status(500).json({
+    success: false,
+    message: error.message,
+    code: error.code,
+    sqlMessage: error.sqlMessage
+  });
+}
 
 // === GET PROFILE (butuh token) ===
 const getProfile = async (req, res) => {

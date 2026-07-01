@@ -2,6 +2,7 @@ const express  = require('express');
 const cors     = require('cors');
 require('dotenv').config();
 const path = require('path');
+const db = require('./config/db');
 
 const app  = express(); // HARUS PALING ATAS SEBELUM app.use
 const PORT = process.env.PORT || 3000;
@@ -45,6 +46,15 @@ startScheduler();
 // ── Root ───────────────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error("❌ Gagal konek ke MySQL:", err);
+    return;
+  }
+
+  console.log("✅ Berhasil terkoneksi ke MySQL!");
 });
 
 // ── Start Server ───────────────────────────────────────────────────────────

@@ -64,6 +64,7 @@ res.status(201).json({
     sqlMessage: error.sqlMessage
   });
 }
+};
 // === LOGIN ===
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -115,7 +116,7 @@ const login = async (req, res) => {
     sqlMessage: error.sqlMessage
   });
 }
-
+};
 // === GET PROFILE (butuh token) ===
 const getProfile = async (req, res) => {
   try {

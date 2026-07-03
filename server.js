@@ -48,14 +48,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-db.connect((err) => {
-  if (err) {
+(async () => {
+  try {
+    await db.query("SELECT 1");
+    console.log("✅ Berhasil terkoneksi ke MySQL!");
+  } catch (err) {
     console.error("❌ Gagal konek ke MySQL:", err);
-    return;
   }
-
-  console.log("✅ Berhasil terkoneksi ke MySQL!");
-});
+})();
 
 // ── Start Server ───────────────────────────────────────────────────────────
 app.listen(PORT, () => {

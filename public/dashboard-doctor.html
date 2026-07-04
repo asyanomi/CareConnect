@@ -469,27 +469,33 @@ async function saveProfile(){
 function logout(){
 
     localStorage.removeItem('token');
-
+    localStorage.removeItem("patientRecords");
     // Jangan hapus patientRecords agar tetap tersimpan
     window.location.href = 'index.html';
 
 }
-function updateDashboard(){
+async function updateDashboard(){
 
-    // Total pasien unik
-    const uniquePatients = [
-        ...new Set(patientRecords.map(r => r.patientName))
-    ];
+    const res = await fetch("/api/appointments/doctor",{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    });
 
-    document.getElementById('totalPatients').textContent =
-        uniquePatients.length;
+    const data = await res.json();
 
-    // Karena belum memakai database janji,
-    // jumlah janji = jumlah rekam medis sementara
-    document.getElementById('todayAppointments').textContent =
-        patientRecords.length;
+    const patients = new Set(
+        data.appointments.map(a => a.patient_id)
+    );
+
+    document.getElementById("totalPatients").textContent =
+        patients.size;
+
+    const today = new Date().toISOString().split("T")[0];
+
+    document.getElementById("todayAppointments").textContent =
+        data.appointments.filter(a => a.date === today).length;
 }
-
 /* =========================
    JADWAL PRAKTIK
 ========================= */

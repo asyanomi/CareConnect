@@ -228,5 +228,6 @@ module.exports = {
   getAllDoctors,
   getDoctorById,
   updateSchedule,
-  updateStatus
+  updateStatus,
+  getDoctorRecords
 };

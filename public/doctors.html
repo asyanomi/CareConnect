@@ -282,7 +282,7 @@ async function loadDoctors() {
 
     const filter = document.getElementById("filter").value;
 
-    const res = await fetch("http://localhost:3000/api/doctors");
+    const res = await fetch("/api/doctors");
     const data = await res.json();
 
     const container = document.getElementById("doctor-list");

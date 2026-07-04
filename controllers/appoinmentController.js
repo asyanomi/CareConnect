@@ -26,7 +26,11 @@ const createAppointment = async (req, res) => {
     if (conflict.length > 0) {
       return res.status(409).json({ message: 'Slot waktu ini sudah dipesan. Pilih waktu lain.' });
     }
+const [dbName] = await db.query("SELECT DATABASE() db");
+console.log("DATABASE =", dbName);
 
+const [table] = await db.query("SHOW CREATE TABLE appointments");
+console.log(table[0]["Create Table"]);
     await db.query(
       'INSERT INTO appointments (patient_id, doctor_id, date, time, notes) VALUES (?, ?, ?, ?, ?)',
       [patient_id, doctor_id, date, time, notes]

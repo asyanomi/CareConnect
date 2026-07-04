@@ -437,7 +437,7 @@ async function saveProfile(){
     try{
 
         const response = await fetch(
-            'http://localhost:3000/api/doctors/profile',
+            '/api/doctors/profile',
             {
                 method:'POST',
                 headers:{
@@ -508,7 +508,7 @@ async function saveSchedule(){
     try{
 
         const response = await fetch(
-            'http://localhost:3000/api/doctors/schedule',
+            '/api/doctors/schedule',
             {
                 method:'PUT',
                 headers:{
@@ -540,7 +540,7 @@ async function saveStatus(){
         document.getElementById('doctorStatus').value;
 
     const response = await fetch(
-        'http://localhost:3000/api/doctors/status',
+        '/api/doctors/status',
         {
             method:'PUT',
             headers:{

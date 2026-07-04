@@ -483,7 +483,8 @@ async function updateDashboard(){
     });
 
     const data = await res.json();
-
+    console.log("DATA APPOINTMENT:", data);
+    console.log("APPOINTMENTS:", data.appointments);
     const patients = new Set(
         data.appointments.map(a => a.patient_id)
     );
@@ -491,10 +492,12 @@ async function updateDashboard(){
     document.getElementById("totalPatients").textContent =
         patients.size;
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toLocaleDateString("en-CA");
 
     document.getElementById("todayAppointments").textContent =
-        data.appointments.filter(a => a.date === today).length;
+    data.appointments.filter(
+        a => a.date === today && a.status === "confirmed"
+    ).length;
 }
 /* =========================
    JADWAL PRAKTIK

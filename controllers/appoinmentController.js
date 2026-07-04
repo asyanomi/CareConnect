@@ -42,8 +42,15 @@ const [patient] = await db.query(
     "SELECT name FROM users WHERE id = ?",
     [patient_id]
 );
+console.log("doctorUser =", doctorUser);
+console.log("patient =", patient);
+if (!doctorUser.length) {
+    throw new Error("doctorUser kosong");
+}
 
-// Simpan notifikasi
+if (!patient.length) {
+    throw new Error("patient kosong");
+}
 await db.query(
 `
 INSERT INTO notifications
@@ -59,9 +66,16 @@ VALUES (?,?,?,0)
     res.status(201).json({ message: 'Booking berhasil! Menunggu konfirmasi dokter.' });
 
   } catch (error) {
-    console.error('Error createAppointment:', error);
-    res.status(500).json({ message: 'Terjadi kesalahan pada server.' });
-  }
+    console.error("=== CREATE APPOINTMENT ERROR ===");
+    console.error(error);
+
+    res.status(500).json({
+        message: error.message,
+        code: error.code,
+        sqlMessage: error.sqlMessage,
+        sql: error.sql
+    });
+}
 };
 
 // === PASIEN: Lihat riwayat booking milik sendiri ===
